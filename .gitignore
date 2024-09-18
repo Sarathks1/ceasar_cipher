@@ -1,0 +1,41 @@
+def encrypt(message, shift):
+    encrypted_message = ""
+    for char in message:
+        if char.isalpha():
+            # Shift character and wrap around the alphabet
+            shift_base = ord('a') if char.islower() else ord('A')
+            encrypted_message += chr((ord(char) - shift_base + shift) % 26 + shift_base)
+        else:
+            # Non-alphabetical characters remain unchanged
+            encrypted_message += char
+    return encrypted_message
+
+def decrypt(message, shift):
+    return encrypt(message, -shift)  # Decrypting is just encrypting with the negative shift
+
+def main():
+    print("Welcome to the Caesar Cipher Tool!")
+    while True:
+        operation = input("Choose operation (encrypt/decrypt/exit): ").lower()
+        if operation == 'exit':
+            break
+        if operation not in ['encrypt', 'decrypt']:
+            print("Invalid operation. Please choose 'encrypt' or 'decrypt'.")
+            continue
+        
+        message = input("Enter your message: ")
+        try:
+            shift = int(input("Enter shift value (integer): "))
+        except ValueError:
+            print("Invalid shift value. Please enter an integer.")
+            continue
+        
+        if operation == 'encrypt':
+            result = encrypt(message, shift)
+            print(f"Encrypted message: {result}")
+        elif operation == 'decrypt':
+            result = decrypt(message, shift)
+            print(f"Decrypted message: {result}")
+
+if __name__ == "__main__":
+    main()
